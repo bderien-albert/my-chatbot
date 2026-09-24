@@ -5,7 +5,7 @@ from openai import OpenAI
 # python -m streamlit run app.py
 
 
-API_KEY = "dkuaps-wuaJBOFyuXWb4NwLLzrVBZrqi2xVtwZO"
+API_KEY = st.secrets["API_KEY"]
 
 
 BASE_URL = "https://dss-186181c0-20d9f059-dku.eu-west-3.app.dataiku.io/public/api/projects/NOUVEAU/llms/openai/v1/"
