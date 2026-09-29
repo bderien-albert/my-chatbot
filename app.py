@@ -56,9 +56,28 @@ You can contact her at:
 """
 
 CONTACT_SAVED_ANSWER = """
-✅ **Contact has been saved to the database.**
+### 📊 Usage Analytics — Last 30 days
 
-The contact information has been successfully indexed and is now available in the internal knowledge base.
+**Most common topic:** Cancer Awareness & Early Detection
+
+| Rank | Topic | Share of queries |
+|---|---|---|
+| 1 | Cancer Awareness & Early Detection | 42% |
+| 2 | Finance & Budget requests (escalated) | 23% |
+| 3 | Company & HR information | 18% |
+| 4 | Other | 17% |
+
+**Most referenced sources:**
+
+* `/joshua_smith_new_nanotech_to_catch_cancer_early_seg01.wav` — 128 citations
+* `/joshua_smith_new_nanotech_to_catch_cancer_early_seg02.wav` — 97 citations
+* `/joshua_smith_new_nanotech_to_catch_cancer_early_seg03.wav` — 64 citations
+
+**Insights:**
+
+* Questions about early symptoms and screening are the main driver of usage.
+* Finance-related questions are consistently escalated to Clara Osborn.
+* Consider adding more documents on prevention to improve coverage.
 """
 
 ANALYTICS_ANSWER = """
