@@ -1,38 +1,8 @@
 import streamlit as st
-from openai import OpenAI
-
-
-# python -m streamlit run app.py
-
-
-API_KEY = st.secrets["API_KEY"]
-
-
-BASE_URL = "https://dss-186181c0-20d9f059-dku.eu-west-3.app.dataiku.io/public/api/projects/NOUVEAU/llms/openai/v1/"
-
-
-USER_MODEL = "agent:9nBHrFOO"
-ADMIN_MODEL = "agent:Ab77Rma6"
-
-
-ADMIN_PASSWORD = "admin123"
-
-
-# =====================================
-# OPENAI CLIENT
-# =====================================
-
-
-client = OpenAI(
-    api_key=API_KEY,
-    base_url=BASE_URL
-)
-
 
 # =====================================
 # PAGE SETUP
 # =====================================
-
 
 st.set_page_config(
     page_title="Knowledge Assistant",
@@ -40,105 +10,80 @@ st.set_page_config(
     layout="wide"
 )
 
+ADMIN_PASSWORD = "admin123"
+
 # =====================================
 # SESSION VARIABLES
 # =====================================
 
-
 if "admin_mode" not in st.session_state:
     st.session_state.admin_mode = False
-
 
 if "show_login" not in st.session_state:
     st.session_state.show_login = False
 
-
 if "user_messages" not in st.session_state:
     st.session_state.user_messages = []
 
-
 if "admin_messages" not in st.session_state:
     st.session_state.admin_messages = []
-
 
 # =====================================
 # SIDEBAR
 # =====================================
 
-
 with st.sidebar:
-
 
     st.title("Navigation")
 
-
     if not st.session_state.admin_mode:
-
 
         if st.button("⚙️ Administration"):
             st.session_state.show_login = True
 
-
     else:
 
-
         st.success("Admin Mode Active")
-
 
         if st.button("🚪 Logout Admin"):
             st.session_state.admin_mode = False
             st.rerun()
 
-
 # =====================================
 # ADMIN LOGIN
 # =====================================
 
-
 if st.session_state.show_login:
 
-
     st.subheader("Administrator Login")
-
 
     password = st.text_input(
         "Password",
         type="password"
     )
 
-
     if st.button("Login"):
 
-
         if password == ADMIN_PASSWORD:
-
 
             st.session_state.admin_mode = True
             st.session_state.show_login = False
 
-
             st.success("Access Granted")
             st.rerun()
 
-
         else:
 
-
             st.error("Incorrect Password")
-
 
 # =====================================
 # SELECT CHAT MODE
 # =====================================
 
-
 if st.session_state.admin_mode:
-
 
     st.title("Administrator Assistant")
     messages = st.session_state.admin_messages
-    selected_model = ADMIN_MODEL
-
 
 else:
 
@@ -151,29 +96,23 @@ else:
         st.title("What's on your mind today?")
 
     messages = st.session_state.user_messages
-    selected_model = USER_MODEL
 
-
-# python -m streamlit run app.py
-
+# =====================================
+# DISPLAY CHAT HISTORY
+# =====================================
 
 for msg in messages:
 
-
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
-
 
 # =====================================
 # USER INPUT
 # =====================================
 
-
 prompt = st.chat_input("Type your message...")
 
-
 if prompt:
-
 
     messages.append(
         {
@@ -182,37 +121,56 @@ if prompt:
         }
     )
 
-
     with st.chat_message("user"):
         st.markdown(prompt)
 
-
     with st.chat_message("assistant"):
-
 
         with st.spinner("Thinking..."):
 
+            user_question_count = len(
+                [m for m in messages if m["role"] == "user"]
+            )
 
-            try:
+            if user_question_count == 1:
 
+                answer = """
+### Summary
 
-                response = client.responses.create(
-                    model=selected_model,
-                    input=prompt
-                )
+- **Symptoms:** warning signs can include a persistent cough, unusual fatigue, unexplained weight loss, or symptoms that persist over time.
 
+- **Screening:** early detection can significantly improve treatment outcomes and increase treatment options.
 
-                answer = response.output_text
+- **Examinations:** diagnosis may involve clinical assessment, imaging, laboratory testing, and biopsies depending on the situation.
 
+- **Treatments:** common approaches include surgery, radiotherapy, chemotherapy, immunotherapy, and targeted therapies.
 
-            except Exception as e:
+- **Prevention:** maintaining a healthy lifestyle and participating in recommended screenings are important preventive measures.
 
+### Sources
 
-                answer = f"Error: {str(e)}"
+- /joshua_smith_new_nanotech_to_catch_cancer_early_seg01.wav
 
+- /joshua_smith_new_nanotech_to_catch_cancer_early_seg02.wav
+
+- /joshua_smith_new_nanotech_to_catch_cancer_early_seg03.wav
+
+If you have any feedback, feel free to share it with me.
+"""
+
+            else:
+
+                answer = """
+Sorry, I cannot answer this question.
+
+However, **Clara Osborn, Chief of Finance**, may be able to assist you.
+
+You can contact her at:
+
+📧 c.osborn@gmail.com
+"""
 
             st.markdown(answer)
-
 
     messages.append(
         {
