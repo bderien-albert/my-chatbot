@@ -58,8 +58,6 @@ You can contact her at:
 CONTACT_SAVED_ANSWER = """
 ✅ **Contact has been saved to the database.**
 
-**Reference ID:** `CNT-28471`
-
 The contact information has been successfully indexed and is now available in the internal knowledge base.
 """
 
